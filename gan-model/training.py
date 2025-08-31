@@ -11,7 +11,7 @@ def train_gan(train_loader, generador, discriminador,
     fixed_z = None , smooth = False , smooth_advance = False) :
 
     """
-    Entrena una GAN 'clásica': D con Sigmoid + BCELoss; G con pérdida no-saturante.
+    Entrena una GAN : D con Sigmoid + BCELoss; G con pérdida no-saturante.
 
     Retorna: diccionario con histórico de pérdidas por epoch: {'loss_D': [...], 'loss_G': [...]}
     """
@@ -55,43 +55,50 @@ def train_gan(train_loader, generador, discriminador,
                 real_labels = torch.empty(b, 1).uniform_(0.8, 1.0) # en vez de todos exactamente 0.9, los hacemos variar entre 0.8 y 1.0
             else: 
                 real_labels = torch.ones(b, 1)
-
+                
             fake_labels = torch.zeros(b, 1)
 
             # =====================================
-            # (1) Update D: max log D(x) + log(1 - D(G(z)))
+            # (1) Update D: max log D(x) + log(1 - D(G(z))) =  O sea verdaderas como verdaderas, falsas como falsas
+
+            # En la practica queremos que su loss sea 0.69 (−log 0.5)
+            # Para un G fijo D si logra maximizar (una iteracion), cuando G cambia: D se deberia volver mas ineficiente. 
+            # Al final el discriminador se vuelve igual que lanzar una moneda 50/50
             # =====================================
             optimizerD.zero_grad(set_to_none=True)
 
             # Reales: D(x) debe acercarse a 1
-            out_real = discriminador(real)                        # Probabilidades en (0,1) porque D tiene Sigmoid
-            loss_D_real = criterion(out_real, real_labels)
+            out_real = discriminador(real)           # Probabilidades debido a sigmoid
+            loss_D_real = criterion(out_real, real_labels) # −log D(real).
 
             # Falsas: G(z) -> detach para NO actualizar G en el paso de D
             z = torch.randn(b, latent_dim)
             fake = generador(z).detach()                      # rompe gradiente hacia G
-            out_fake = discriminador(fake)                        # D(G(z)) debe acercarse a 0
-            loss_D_fake = criterion(out_fake, fake_labels)
+            out_fake = discriminador(fake)                    # D(G(z)) debe acercarse a 0 para maximizar
+            loss_D_fake = criterion(out_fake, fake_labels)    # −log (1 − D(G(z)))
 
             # Promediamos pérdidas real/fake para estabilidad
             loss_D = 0.5 * (loss_D_real + loss_D_fake)
-            loss_D.backward()
+            loss_D.backward() # Actualizamos solo D
             optimizerD.step()
 
             # =====================================
-            # (2) Update G:  min log(1 - D(G(z)))  ≡  max log D(G(z))
-            #     (pérdida no-saturante): BCE(D(G(z)), 1)
+            # (2) Update G:  min log(1 - D(G(z)))  ≡  max log D(G(z)) o sea confundir al discriminador
+
+            # Aca lo importante es notar que ambas cosas no pueden maximizarse a la misma vez son contrarias. 
             # =====================================
             optimizerG.zero_grad(set_to_none=True)
 
             z = torch.randn(b, latent_dim)
             fake = generador(z)                               # ahora SÍ queremos gradiente hacia G
             out_fake_for_G = discriminador(fake)
-            # G quiere que D "piense" que estas falsas son reales (target=1)
-            loss_G = criterion(out_fake_for_G, real_labels)
 
-            loss_G.backward()
+            # G quiere que D "piense" que estas falsas son reales (target=1)
+            loss_G = criterion(out_fake_for_G, real_labels) # Perdida no saturante
+
+            loss_G.backward() #  retropropaga el gradiente a través de D (porque lo usamos para las probs) pero solo actualiza G
             optimizerG.step()
+
 
             # Acumular métricas
             running_D += loss_D.item()
