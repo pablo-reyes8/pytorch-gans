@@ -9,11 +9,12 @@ This project is designed as a hands-on introduction to adversarial training and 
 
 ```plaintext
 ├── samples/ # Generated images during training
-├── gan_full.ipynb # End-to-end notebook: training + visualization
-├── load_data.py # Data loading utilities (MNIST, transforms, DataLoader)
-├── model.py # Generator and Discriminator model definitions
-├── train_model.ipynb # Training workflow (notebook version)
-├── training.py # Training loop implementation with logging and sampling
+├── gan-model/ # Core GAN implementation
+│ ├── gan_full.ipynb # End-to-end notebook: training + visualization
+│ ├── load_data.py # Data loading utilities (MNIST, transforms, DataLoader)
+│ ├── model.py # Generator and Discriminator model definitions
+│ ├── train_model.ipynb # Training workflow (notebook version)
+│ ├── training.py # Training loop implementation with logging and sampling
 ```
 
 ---
