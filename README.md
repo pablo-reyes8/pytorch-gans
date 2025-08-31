@@ -52,6 +52,15 @@ After training for ~20 epochs, the generator produces recognizable handwritten d
   <img src="samples/epoch_0020.png" alt="Generated digits at epoch 20" width="300"/>
 </p>
 
+
+---
+
+## Requirements
+
+```bash
+pip install torch torchvision matplotlib
+```
+  
 ---
 
 ## 📚 References
