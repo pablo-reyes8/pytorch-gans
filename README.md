@@ -1,4 +1,13 @@
-# MNIST-GAN
+# MNIST - Generative Adversarial Network
+
+![Repo size](https://img.shields.io/github/repo-size/pablo-reyes8/mnist-gan)
+![Last commit](https://img.shields.io/github/last-commit/pablo-reyes8/mnist-gan)
+![Open issues](https://img.shields.io/github/issues/pablo-reyes8/mnist-gan)
+![Contributors](https://img.shields.io/github/contributors/pablo-reyes8/mnist-gan)
+![Forks](https://img.shields.io/github/forks/pablo-reyes8/mnist-gan?style=social)
+![Stars](https://img.shields.io/github/stars/pablo-reyes8/mnist-gan?style=social)
+
+
 
 An implementation of a **Generative Adversarial Network (GAN)** in PyTorch, trained on the MNIST dataset to generate realistic handwritten digits.  
 This repository demonstrates the core principles of adversarial training through a clean and well-structured codebase, making it both a practical learning resource and a solid foundation for extending towards more advanced GAN architectures.
