@@ -33,7 +33,7 @@ This repository demonstrates the core principles of adversarial training through
 
 - **`model.py`**  
   Defines the **Generator** and **Discriminator** networks using `torch.nn.Module`.  
-  - Generator: maps latent vectors (z ∈ ℝ^100) to 28×28 grayscale images.  
+  - Generator: maps latent vectors (z ∈ ℝ^100) to 32×32 grayscale images.  
   - Discriminator: classifies images as real (from MNIST) or fake (from the generator).  
 
 - **`training.py`**  
