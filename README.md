@@ -1,7 +1,8 @@
 # MNIST-GAN
 
-A simple yet educational implementation of a **Generative Adversarial Network (GAN)** in PyTorch, trained on the MNIST dataset to generate handwritten digits.  
-This project is designed as a hands-on introduction to adversarial training and can serve as a foundation for more advanced GAN architectures in the future.
+An implementation of a **Generative Adversarial Network (GAN)** in PyTorch, trained on the MNIST dataset to generate realistic handwritten digits.  
+This repository demonstrates the core principles of adversarial training through a clean and well-structured codebase, making it both a practical learning resource and a solid foundation for extending towards more advanced GAN architectures.
+
 
 ---
 
