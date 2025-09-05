@@ -58,7 +58,7 @@ This repository demonstrates the core principles of adversarial training through
 After training for ~20 epochs, the generator produces recognizable handwritten digits. With more epochs and training tricks (e.g., label smoothing, improved architectures), the results can be significantly improved.  
 
 <p align="center">
-  <img src="samples/epoch_0020.png" alt="Generated digits at epoch 20" width="300"/>
+  <img src="samples/epoch_0100.png" alt="Generated digits at epoch 20" width="300"/>
 </p>
 
 
