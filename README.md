@@ -76,7 +76,7 @@ A convolutional GAN based on the **DCGAN architecture** (Radford et al., 2015), 
 - Incorporates training refinements such as **two-step generator updates** to stabilize learning.  
 
 <p align="center">
-  <img src="dcgan_cifar/samples/generated_cifar.png" alt="CIFAR-10 DCGAN sample" width="280"/>
+  <img src="dcgan_cifar/samples/epoch_0030.png" alt="CIFAR-10 DCGAN sample" width="280"/>
 </p>
 
 
