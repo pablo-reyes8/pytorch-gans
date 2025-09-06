@@ -1,75 +1,111 @@
-# MNIST - Generative Adversarial Network
+# PyTorch GANs
 
-![Repo size](https://img.shields.io/github/repo-size/pablo-reyes8/mnist-gan)
-![Last commit](https://img.shields.io/github/last-commit/pablo-reyes8/mnist-gan)
-![Open issues](https://img.shields.io/github/issues/pablo-reyes8/mnist-gan)
-![Contributors](https://img.shields.io/github/contributors/pablo-reyes8/mnist-gan)
-![Forks](https://img.shields.io/github/forks/pablo-reyes8/mnist-gan?style=social)
-![Stars](https://img.shields.io/github/stars/pablo-reyes8/mnist-gan?style=social)
+![Repo size](https://img.shields.io/github/repo-size/pablo-reyes8/pytorch-gans)
+![Last commit](https://img.shields.io/github/last-commit/pablo-reyes8/pytorch-gans)
+![Open issues](https://img.shields.io/github/issues/pablo-reyes8/pytorch-gans)
+![Contributors](https://img.shields.io/github/contributors/pablo-reyes8/pytorch-gans)
+![Forks](https://img.shields.io/github/forks/pablo-reyes8/pytorch-gans?style=social)
+![Stars](https://img.shields.io/github/stars/pablo-reyes8/pytorch-gans?style=social)
 
+A collection of **Generative Adversarial Networks (GANs)** implemented in **PyTorch**.  
+This repository brings together different GAN architectures trained on benchmark datasets, providing a practical and extensible framework for learning and experimentation.  
 
-
-An implementation of a **Generative Adversarial Network (GAN)** in PyTorch, trained on the MNIST dataset to generate realistic handwritten digits.  
-This repository demonstrates the core principles of adversarial training through a clean and well-structured codebase, making it both a practical learning resource and a solid foundation for extending towards more advanced GAN architectures.
-
+The implementations are designed to be:  
+- **Educational** → Clean code that highlights the fundamentals of adversarial training.  
+- **Extensible** → Modular design to adapt to new architectures or datasets.  
+- **Reproducible** → Includes notebooks and sample outputs for transparency.  
 
 ---
 
-## 📂 Project Structure
+
+## 📂 Repository Structure
 
 ```plaintext
-├── samples/ # Generated images during training
-├── gan-model/ # Core GAN implementation
-│ ├── gan_full.ipynb # End-to-end notebook: training + visualization
-│ ├── load_data.py # Data loading utilities (MNIST, transforms, DataLoader)
-│ ├── model.py # Generator and Discriminator model definitions
-│ ├── train_model.ipynb # Training workflow (notebook version)
-│ ├── training.py # Training loop implementation with logging and sampling
+pytorch-gans/
+│
+├── mnist_gan/                # Baseline GAN on MNIST
+│   ├── notebooks/            # Jupyter notebooks for training & visualization
+│   │   ├── gan_full.ipynb
+│   │   └── train_model.ipynb
+│   ├── samples/              # Generated digit samples
+│   └── src/                  # Source code
+│       ├── load_data.py      # MNIST data loading utilities
+│       ├── model.py          # Generator & Discriminator definitions
+│       └── training.py       # Training loop implementation
+│
+├── dcgan_cifar/              # Deep Convolutional GAN on CIFAR-10
+│   ├── model/                # Saved models (weights, checkpoints)
+│   │   └── Generador_30epochs.pth
+│   ├── notebooks/            # Training & visualization notebooks
+│   │   ├── conv_gan_full.ipynb
+│   │   └── train_model.ipynb
+│   ├── samples/              # Generated CIFAR-10 images
+│   └── src/                  # Source code
+│       ├── load_data.py      # CIFAR-10 data loading utilities
+│       ├── model.py          # DCGAN Generator & Discriminator
+│       └── training.py       # Training loop with refinements
+│
+├── LICENSE                   # MIT License
+├── pyproject.toml            # Project metadata (Poetry / pip installation)
+├── poetry.lock               # Dependency lockfile (if using Poetry)
+└── README.md                 # Project documentation
 ```
 
 ---
 
-## ⚙️ Main Components
+## 🧩 Implementations
 
-- **`model.py`**  
-  Defines the **Generator** and **Discriminator** networks using `torch.nn.Module`.  
-  - Generator: maps latent vectors (z ∈ ℝ^100) to 32×32 grayscale images.  
-  - Discriminator: classifies images as real (from MNIST) or fake (from the generator).  
+### 1. **MNIST GAN** (`mnist_gan/`)
+A fully connected GAN trained on the **MNIST dataset** to generate realistic handwritten digits.  
 
-- **`training.py`**  
-  Contains the training loop for the GAN. Handles forward/backward passes, optimizer steps, and periodic image sampling for monitoring progress.  
+- **Generator**: maps latent vectors (*z* ∈ ℝ^100) to grayscale images of size 32×32.  
+- **Discriminator**: distinguishes between real MNIST digits and generated samples.  
+- Serves as the **baseline** implementation, ideal for understanding the core mechanics of GANs.  
 
-- **`load_data.py`**  
-  Loads and preprocesses the MNIST dataset, applying normalization and batching for training.  
-
-- **`gan_full.ipynb`**  
-  Jupyter Notebook that ties together the data, models, and training loop in one interactive script. Ideal for experimenting and visualizing results.  
-
-- **`train_model.ipynb`**  
-  Focused notebook for running the training pipeline with logging of loss values and generated samples.  
-
-- **`samples/`**  
-  Stores generated images at different epochs, allowing visualization of the GAN’s learning progress.  
+<p align="center">
+  <img src="mnist_gan/samples/epoch_0100.png" alt="MNIST GAN sample" width="280"/>
+</p>
 
 ---
 
-## 🚀 Results
+### 2. **Deep Convolutional GAN (DCGAN)** (`dcgan_cifar/`)
+A convolutional GAN based on the **DCGAN architecture** (Radford et al., 2015), trained on the **CIFAR-10 dataset**.  
 
-After training for ~100 epochs, the generator produces recognizable handwritten digits. With more epochs and training tricks (e.g., label smoothing, improved architectures), the results can be significantly improved.  
+- **Generator**: convolutional layers with transposed convolutions, enabling the synthesis of 32×32 **color images**.  
+- **Discriminator**: convolutional classifier distinguishing real vs. fake images.  
+- Incorporates training refinements such as **two-step generator updates** to stabilize learning.  
 
 <p align="center">
-  <img src="samples/epoch_0100.png" alt="Generated digits at epoch 20" width="300"/>
+  <img src="dcgan_cifar/samples/generated_cifar.png" alt="CIFAR-10 DCGAN sample" width="280"/>
 </p>
 
 
 ---
 
-## Requirements
+# ⚙️ Installation & Dependencies
+
+## 1. Clone the repository
+```bash
+git clone https://github.com/pablo-reyes8/pytorch-gans.git
+cd pytorch-gans
+```
+
+## 2. Create a virtual environment (recommended)
+```bash
+python -m venv venv
+source venv/bin/activate   # On Linux/Mac
+venv\Scripts\activate      # On Windows
+```
+
+## 3. Install dependencies
 
 ```bash
-pip install torch torchvision matplotlib
+poetry install
 ```
-  
+
+
+
+
 ---
 
 ## 📚 References
@@ -88,8 +124,7 @@ This project is licensed under the **MIT License** – see the [LICENSE](LICENSE
 
 ## ✨ Future Work
 
-- Experiment with **Wasserstein GAN (WGAN)** and gradient penalty.  
-- Extend to **color datasets** like CIFAR-10.  
-- Add logging and visualization with **TensorBoard**.  
-- Explore **conditional GANs (cGANs)** for class-conditioned digit generation.
-
+- Implement **Wasserstein GAN (WGAN)** with gradient penalty.  
+- Extend to larger and more diverse datasets (e.g., **CelebA**).  
+- Add experiment tracking with **TensorBoard**.  
+- Explore **conditional GANs (cGANs)** for class-conditioned image generation.  
