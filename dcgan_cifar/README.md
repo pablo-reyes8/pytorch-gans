@@ -57,7 +57,7 @@ dcgan_cifar/
 After ~30 epochs of training, the generator produces recognizable CIFAR-10-like images. With more training, hyperparameter tuning, and additional techniques (e.g., label smoothing, spectral normalization), image quality can be further improved.
 
 <p align="center">
-  <img src="dcgan_cifar/samples/epoch_0030.png" alt="CIFAR-10 DCGAN sample" width="280"/>
+  <img src="samples/epoch_0030.png" alt="CIFAR-10 DCGAN sample" width="280"/>
 </p>
 
 ---
@@ -82,3 +82,4 @@ This project is licensed under the **MIT License** – see the [LICENSE](LICENSE
 - Explore **Wasserstein DCGAN (WGAN-GP)** for improved convergence.
 - Add experiment tracking with **TensorBoard**.
 - Extend to **conditional DCGANs (cDCGAN)** for class-conditioned generation.
+
