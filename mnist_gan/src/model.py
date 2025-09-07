@@ -10,8 +10,7 @@ class Generator(nn.Module):
     - Salida: FC -> Tanh, reshape a (B, 1, 32, 32)
     """
     
-    def __init__(self, latent_dim = 100, img_channels = 1, img_size = 32,
-                 hidden_dims=(256, 512, 1024) , batch_norm=True):
+    def __init__(self, latent_dim = 100, img_channels = 1, img_size = 32,hidden_dims=(256, 512, 1024) , batch_norm=True):
         
         super().__init__()
         self.latent_dim = latent_dim
@@ -117,6 +116,5 @@ def weights_init_normal(m):
     elif classname.find('BatchNorm') != -1:
         nn.init.normal_(m.weight, 1.0, 0.02)
         nn.init.zeros_(m.bias)
-
 
 
