@@ -26,7 +26,7 @@ hinge-sngan/
 │   ├── epoch_0025.png
 │   └── ...
 ├── src/                        # Core implementation
-│   ├── load_data.py            # Oxford Pets dataloader & preprocessing
+│   ├── load_data.py            # Cifrar dataloader & preprocessing
 │   ├── loss_hinge.py           # Hinge + R1 losses
 │   ├── model.py                # Generator & Discriminator (with SN)
 │   ├── train_loop.py           # Training loop with R1, EMA, DiffAug
@@ -98,5 +98,6 @@ This project is licensed under the **MIT License** – see the [LICENSE](LICENSE
 - Extend training to larger datasets like **CelebA-HQ**.
 - Experiment with **larger architectures (BigGAN-lite)**.
 - Evaluate image quality with **FID/KID metrics**.
+
 
 
