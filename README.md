@@ -13,7 +13,7 @@ This repository brings together different GAN architectures trained on benchmark
 The implementations are designed to be:  
 - **Educational** → Clean code that highlights the fundamentals of adversarial training.  
 - **Extensible** → Modular design to adapt to new architectures or datasets.  
-- **Reproducible** → Includes notebooks and sample outputs for transparency.  
+- **Reproducible** → Includes notebooks, checkpoints, and sample outputs for transparency.   
 
 ---
 
@@ -23,37 +23,29 @@ The implementations are designed to be:
 ```plaintext
 pytorch-gans/
 │
-├── mnist_gan/                # Baseline GAN on MNIST
+├── mnist_gan/                # Baseline GAN on MNIST (28x28 grayscale)
 │   ├── notebooks/            # Jupyter notebooks for training & visualization
-│   │   ├── gan_full.ipynb
-│   │   └── train_model.ipynb
 │   ├── samples/              # Generated digit samples
-│   └── src/                  # Source code
-│       ├── load_data.py      # MNIST data loading utilities
-│       ├── model.py          # Generator & Discriminator definitions
-│       └── training.py       # Training loop implementation
+│   └── src/                  # Source code (data, models, training loop)
 │
-├── dcgan_cifar/              # Deep Convolutional GAN on CIFAR-10
+├── dcgan_cifar/              # Deep Convolutional GAN on CIFAR-10 (32x32 RGB)
 │   ├── model/                # Saved models (weights, checkpoints)
-│   │   └── Generador_30epochs.pth
 │   ├── notebooks/            # Training & visualization notebooks
-│   │   ├── conv_gan_full.ipynb
-│   │   └── train_model.ipynb
 │   ├── samples/              # Generated CIFAR-10 images
-│   └── src/                  # Source code
-│       ├── load_data.py      # CIFAR-10 data loading utilities
-│       ├── model.py          # DCGAN Generator & Discriminator
-│       └── training.py       # Training loop with refinements
+│   └── src/                  # Source code (data, DCGAN models, training loop)
+│
+├── hinge_sngan/              # Hinge-SNGAN with R1, EMA, DiffAugment (Oxford Pets, 64x64 RGB)
+│   ├── samples_first_training/   # Generated samples from first training run
+│   ├── samples_second_training/  # Generated samples from second training run
+│   └── src/                      # Core implementation (losses, models, train loop)
 │
 ├── LICENSE                   # MIT License
-├── pyproject.toml            # Project metadata (Poetry / pip installation)
-├── poetry.lock               # Dependency lockfile (if using Poetry)
-└── README.md                 # Project documentation
+├── pyproject.toml             # Project metadata (Poetry / pip installation)
+├── poetry.lock                # Dependency lockfile
+└── README.md                  # Project documentation
 ```
 
 ---
-
-## 🧩 Implementations
 
 ### 1. **MNIST GAN** (`mnist_gan/`)
 A fully connected GAN trained on the **MNIST dataset** to generate realistic handwritten digits.  
@@ -77,6 +69,24 @@ A convolutional GAN based on the **DCGAN architecture** (Radford et al., 2015), 
 
 <p align="center">
   <img src="dcgan_cifar/samples/epoch_0030.png" alt="CIFAR-10 DCGAN sample" width="280"/>
+</p>
+
+---
+
+### 3. **Hinge-SNGAN (CIFRAR)** (`hinge_sngan/`)
+A modern GAN variant combining **Spectral Normalization (SN)**, **Hinge Loss**, **R1 regularization**, **Exponential Moving Average (EMA)**, and **DiffAugment**.  
+
+- **Generator**: maps latent vectors (*z* ∈ ℝ^100) into 64×64×3 RGB images.  
+- **Discriminator**: convolutional network with **spectral normalization** for stable training and margin-based hinge loss.  
+- **Training features**:  
+  - Multiple discriminator steps per generator update.  
+  - Warm-up phase with extra generator training.  
+  - **R1 penalty** every N steps to regularize gradients.  
+  - **EMA** to smooth generator updates.  
+  - **DiffAugment** for improved performance on small datasets.  
+
+<p align="center">
+  <img src="hinge_sngan/samples_second_training/epoch_0060.png" alt="Oxford Pets Hinge-SNGAN sample" width="280"/>
 </p>
 
 
