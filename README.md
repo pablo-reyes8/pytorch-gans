@@ -86,7 +86,7 @@ A modern GAN variant combining **Spectral Normalization (SN)**, **Hinge Loss**, 
   - **DiffAugment** for improved performance on small datasets.  
 
 <p align="center">
-  <img src="hinge-sngan/samples_second_training/epoch_0060.png" alt="Oxford Pets Hinge-SNGAN sample" width="280"/>
+  <img src="hinge-sngan/samples_final/Samples Final.png" alt="Oxford Pets Hinge-SNGAN sample" width="280"/>
 </p>
 
 
