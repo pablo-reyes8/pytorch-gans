@@ -1,4 +1,4 @@
-# Hinge-SNGAN – Oxford Pets (Dogs vs. Cats)
+# Hinge-SNGAN – CIFRAR 10 Clases 
 
 ![Repo size](https://img.shields.io/github/repo-size/pablo-reyes8/pytorch-gans)
 ![Last commit](https://img.shields.io/github/last-commit/pablo-reyes8/pytorch-gans)
@@ -98,4 +98,5 @@ This project is licensed under the **MIT License** – see the [LICENSE](LICENSE
 - Extend training to larger datasets like **CelebA-HQ**.
 - Experiment with **larger architectures (BigGAN-lite)**.
 - Evaluate image quality with **FID/KID metrics**.
+
 
