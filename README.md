@@ -86,7 +86,7 @@ A modern GAN variant combining **Spectral Normalization (SN)**, **Hinge Loss**, 
   - **DiffAugment** for improved performance on small datasets.  
 
 <p align="center">
-  <img src="hinge_sngan/samples_second_training/epoch_0060.png" alt="Oxford Pets Hinge-SNGAN sample" width="280"/>
+  <img src="hinge-sngan/samples_second_training/epoch_0060.png" alt="Oxford Pets Hinge-SNGAN sample" width="280"/>
 </p>
 
 
@@ -122,7 +122,11 @@ poetry install
 
 - Ian Goodfellow et al. (2014). *Generative Adversarial Nets*. NeurIPS.  
 - Alec Radford, Luke Metz, Soumith Chintala (2015). *Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks (DCGAN)*.  
-- PyTorch Documentation: [https://pytorch.org/docs/stable/](https://pytorch.org/docs/stable/)
+- Takeru Miyato et al. (2018). *Spectral Normalization for Generative Adversarial Networks*. ICLR.  
+- Lars Mescheder, Andreas Geiger, Sebastian Nowozin (2018). *Which Training Methods for GANs do actually Converge?* ICML.  
+- Tero Karras, Samuli Laine, Timo Aila (2019). *A Style-Based Generator Architecture for Generative Adversarial Networks (StyleGAN)*. CVPR.  
+- Shengyu Zhao, Zhijian Liu, Ji Lin, Jun-Yan Zhu, Song Han (2020). *Differentiable Augmentation for Data-Efficient GAN Training*. NeurIPS.  
+- PyTorch Documentation: [https://pytorch.org/docs/stable/](https://pytorch.org/docs/stable/) 
 
 ---
 
@@ -134,7 +138,9 @@ This project is licensed under the **MIT License** – see the [LICENSE](LICENSE
 
 ## ✨ Future Work
 
-- Implement **Wasserstein GAN (WGAN)** with gradient penalty.  
-- Extend to larger and more diverse datasets (e.g., **CelebA**).  
-- Add experiment tracking with **TensorBoard**.  
-- Explore **conditional GANs (cGANs)** for class-conditioned image generation.  
+- Implement **Wasserstein GANs (WGAN, WGAN-GP, WGAN-div)** for improved training stability.  
+- Scale up to larger and higher-resolution datasets (e.g., **CelebA-HQ**, **LSUN Bedrooms**).  
+- Incorporate advanced architectures such as **BigGAN** or **StyleGAN2/3**.  
+- Explore **conditional GANs (cGANs, AC-GAN, Projection GANs)** for class-conditioned or multi-label generation.  
+- Extend augmentation pipeline with **DiffAugment variants** and modern techniques (e.g., ADA from StyleGAN2).  
+
