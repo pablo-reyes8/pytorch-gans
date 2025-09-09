@@ -73,7 +73,7 @@ After ~50–80 epochs, the generator begins producing recognizable dog/cat-like 
 EMA and DiffAugment significantly improve stability and sample quality compared to plain hinge-SNGAN.
 
 <p align="center">
-  <img src="samples_first_training/epoch_0080.png" alt="Oxford Pets Hinge-SNGAN sample" width="280"/>
+  <img src="samples_second_training/epoch_0060.png" alt="Oxford Pets Hinge-SNGAN sample" width="280"/>
 </p>
 
 ---
@@ -98,3 +98,4 @@ This project is licensed under the **MIT License** – see the [LICENSE](LICENSE
 - Extend training to larger datasets like **CelebA-HQ**.
 - Experiment with **larger architectures (BigGAN-lite)**.
 - Evaluate image quality with **FID/KID metrics**.
+
