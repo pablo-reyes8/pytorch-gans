@@ -34,7 +34,7 @@ pytorch-gans/
 │   ├── samples/              # Generated CIFAR-10 images
 │   └── src/                  # Source code (data, DCGAN models, training loop)
 │
-├── hinge_sngan/            # Hinge-SNGAN with R1, EMA, DiffAugment (Oxford Pets, 64x64 RGB)
+├── hinge_sngan/            # Hinge-SNGAN with R1, EMA, DiffAugment (CIFRAR-10, 64x64 RGB)
 │   ├── samples_first_training/   # Generated samples from first training run
 │   ├── samples_second_training/  # Generated samples from second training run
 │   └── src/                      # Core implementation (losses, models, train loop)
