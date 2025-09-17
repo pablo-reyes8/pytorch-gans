@@ -19,13 +19,17 @@ This repository demonstrates the core principles of adversarial training through
 
 ```plaintext
 ├── samples/ # Generated images during training
+│
 ├── src/ # Core GAN implementation
 │ ├── load_data.py # Data loading utilities (MNIST, transforms, DataLoader)
 │ ├── model.py # Generator and Discriminator model definitions
 │ ├── training.py # Training loop implementation with logging and sampling
-├── notebooks/ # Jupyter notebooks for usability
+│
+├── training/ # Jupyter notebooks for use the model
 │ ├── gan_full.ipynb # End-to-end notebook: training + visualization
-│ ├── train_model.ipynb # Training workflow (notebook version)
+│
+├── train_model.ipynb # Training workflow (notebook version)
+
 ```
 
 ---
@@ -93,5 +97,6 @@ This project is licensed under the **MIT License** – see the [LICENSE](LICENSE
 - Extend to **color datasets** like CIFAR-10.  
 - Add logging and visualization with **TensorBoard**.  
 - Explore **conditional GANs (cGANs)** for class-conditioned digit generation.
+
 
 
