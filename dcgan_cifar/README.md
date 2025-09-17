@@ -19,13 +19,14 @@ dcgan_cifar/
 ├── model/                 # Pretrained model checkpoints
 │   └── Generador_30epochs.pth
 ├── training/             # End-to-end notebooks
-│   ├── conv_gan_full.ipynb   # Training + visualization
 │   └── train_model.ipynb     # Training workflow
 ├── samples/               # Generated CIFAR-10 samples at different epochs
 └── src/                   # Core DCGAN implementation
-    ├── load_data.py       # CIFAR-10 data loading & transforms
-    ├── model.py           # Generator and Discriminator definitions
-    └── training.py        # Training loop with logging & sampling
+│     ├── load_data.py       # CIFAR-10 data loading & transforms
+│     ├── model.py           # Generator and Discriminator definitions
+│     └── training.py        # Training loop with logging & sampling
+│ 
+├── conv_gan_full.ipynb   # Training + visualization
 ```
 
 ---
@@ -82,5 +83,6 @@ This project is licensed under the **MIT License** – see the [LICENSE](LICENSE
 - Explore **Wasserstein DCGAN (WGAN-GP)** for improved convergence.
 - Add experiment tracking with **TensorBoard**.
 - Extend to **conditional DCGANs (cDCGAN)** for class-conditioned generation.
+
 
 
