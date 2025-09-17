@@ -38,6 +38,7 @@ pytorch-gans/
 │   ├── samples_first_training/   # Generated samples from first training run
 │   ├── samples_second_training/  # Generated samples from second training run
 │   └── src/                      # Core implementation (losses, models, train loop)
+│   └── training/                 # Training model notebooks 
 │
 ├── LICENSE                   # MIT License
 ├── pyproject.toml             # Project metadata (Poetry / pip installation)
