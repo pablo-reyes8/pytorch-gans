@@ -1,0 +1,50 @@
+# Configuration for a simple MNIST GAN experiment
+# This file encodes the hyperparameters and components you listed.
+# You can load it with PyYAML and instantiate the objects accordingly.
+
+experiment:
+  name: mnist_gan_baseline
+  seed: 42
+
+data:
+  dataset: MNIST
+  train_loader: python:train_loader   # placeholder reference to your DataLoader object
+  image_size: 32
+  image_channels: 1
+
+model:
+  generator:
+    class: Generator
+    latent_dim: 100
+    img_channels: 1
+    img_size: 32
+    batch_norm: true
+    init_fn: weights_init_normal
+  discriminator:
+    class: Discriminator
+    img_channels: 1
+    img_size: 32
+    batch_norm: false
+    init_fn: weights_init_normal
+
+loss:
+  criterion:
+    class: BCELoss  # maps to nn.BCELoss()
+
+optimizers:
+  generator:
+    class: Adam
+    lr: 0.0002
+    betas: [0.5, 0.999]
+  discriminator:
+    class: Adam
+    lr: 0.0002
+    betas: [0.5, 0.999]
+
+training:
+  function: train_gan
+  epochs: 20
+  latent_dim: 100
+  sample_every: 1
+  # You can add "resume_from" with a checkpoint path if needed:
+  # resume_from: checkpoint_80epochs.pth
