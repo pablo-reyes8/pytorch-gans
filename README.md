@@ -24,13 +24,13 @@ The implementations are designed to be:
 pytorch-gans/
 │
 ├── mnist_gan/                # Baseline GAN on MNIST (32x32 grayscale)
-│   ├── notebooks/            # Jupyter notebooks for training & visualization
+│   ├── training/            # Jupyter notebooks for training & visualization
 │   ├── samples/              # Generated digit samples
 │   └── src/                  # Source code (data, models, training loop)
 │
 ├── dcgan_cifar/              # Deep Convolutional GAN on CIFAR-10 (32x32 RGB)
 │   ├── model/                # Saved models (weights, checkpoints)
-│   ├── notebooks/            # Training & visualization notebooks
+│   ├── training/            # Training & visualization notebooks
 │   ├── samples/              # Generated CIFAR-10 images
 │   └── src/                  # Source code (data, DCGAN models, training loop)
 │
