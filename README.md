@@ -23,7 +23,7 @@ The implementations are designed to be:
 ```plaintext
 pytorch-gans/
 │
-├── mnist_gan/                # Baseline GAN on MNIST (28x28 grayscale)
+├── mnist_gan/                # Baseline GAN on MNIST (32x32 grayscale)
 │   ├── notebooks/            # Jupyter notebooks for training & visualization
 │   ├── samples/              # Generated digit samples
 │   └── src/                  # Source code (data, models, training loop)
