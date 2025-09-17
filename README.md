@@ -44,6 +44,8 @@ pytorch-gans/
 ├── pyproject.toml             # Project metadata (Poetry / pip installation)
 ├── poetry.lock                # Dependency lockfile
 └── README.md                  # Project documentation
+
+# Every model has a gan_full.ipynb with all the functions and training loops in one place
 ```
 
 ---
