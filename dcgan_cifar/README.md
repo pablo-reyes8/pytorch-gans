@@ -18,7 +18,7 @@ This project extends the basic GAN architecture by introducing convolutional and
 dcgan_cifar/
 ├── model/                 # Pretrained model checkpoints
 │   └── Generador_30epochs.pth
-├── notebooks/             # End-to-end notebooks
+├── training/             # End-to-end notebooks
 │   ├── conv_gan_full.ipynb   # Training + visualization
 │   └── train_model.ipynb     # Training workflow
 ├── samples/               # Generated CIFAR-10 samples at different epochs
@@ -82,4 +82,5 @@ This project is licensed under the **MIT License** – see the [LICENSE](LICENSE
 - Explore **Wasserstein DCGAN (WGAN-GP)** for improved convergence.
 - Add experiment tracking with **TensorBoard**.
 - Extend to **conditional DCGANs (cDCGAN)** for class-conditioned generation.
+
 
