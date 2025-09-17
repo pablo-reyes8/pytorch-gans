@@ -23,24 +23,24 @@ The implementations are designed to be:
 ```plaintext
 pytorch-gans/
 │
-├── mnist_gan/                # Baseline GAN on MNIST (32x32 grayscale)
-│   ├── training/            # Jupyter notebooks for training & visualization
+├── mnist_gan/             # Baseline GAN on MNIST (32x32 grayscale)
+│   ├── training/             # Jupyter notebooks for training & visualization
 │   ├── samples/              # Generated digit samples
 │   └── src/                  # Source code (data, models, training loop)
 │
-├── dcgan_cifar/              # Deep Convolutional GAN on CIFAR-10 (32x32 RGB)
+├── dcgan_cifar/            # Deep Convolutional GAN on CIFAR-10 (32x32 RGB)
 │   ├── model/                # Saved models (weights, checkpoints)
-│   ├── training/            # Training & visualization notebooks
+│   ├── training/             # Training & visualization notebooks
 │   ├── samples/              # Generated CIFAR-10 images
 │   └── src/                  # Source code (data, DCGAN models, training loop)
 │
-├── hinge_sngan/              # Hinge-SNGAN with R1, EMA, DiffAugment (Oxford Pets, 64x64 RGB)
+├── hinge_sngan/            # Hinge-SNGAN with R1, EMA, DiffAugment (Oxford Pets, 64x64 RGB)
 │   ├── samples_first_training/   # Generated samples from first training run
 │   ├── samples_second_training/  # Generated samples from second training run
 │   └── src/                      # Core implementation (losses, models, train loop)
 │   └── training/                 # Training model notebooks 
 │
-├── LICENSE                   # MIT License
+├── LICENSE                    # MIT License
 ├── pyproject.toml             # Project metadata (Poetry / pip installation)
 ├── poetry.lock                # Dependency lockfile
 └── README.md                  # Project documentation
