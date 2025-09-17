@@ -1,0 +1,46 @@
+# Configuration for a DCGAN experiment (RGB, BCEWithLogits, dropout in D)
+experiment:
+  name: dcgan_rgb_bcewl
+  seed: 42
+
+runtime:
+  device: auto  # 'cuda' if available else 'cpu'
+
+data:
+  train_loader: python:train_loader  # placeholder to your DataLoader
+
+model:
+  generator:
+    class: Generator
+    latent_dim: 100
+    ngf: 64
+    img_channels: 3
+    init_fn: weights_init_normal
+  discriminator:
+    class: Discriminator
+    img_channels: 3
+    base: 64
+    max_ch: 1024
+    p_drop: 0.5
+    init_fn: weights_init_normal
+
+loss:
+  criterion:
+    class: BCEWithLogitsLoss
+
+optimizers:
+  generator:
+    class: Adam
+    lr: 0.0002
+    betas: [0.5, 0.999]
+  discriminator:
+    class: Adam
+    lr: 0.0002
+    betas: [0.5, 0.999]
+
+training:
+  function: train_gan
+  epochs: 30
+  latent_dim: 100
+  sample_every: 1
+  smooth_advance: true
