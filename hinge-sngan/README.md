@@ -32,9 +32,10 @@ hinge-sngan/
 │   ├── train_loop.py           # Training loop with R1, EMA, DiffAug
 │   └── training_utils.py       # Utility functions (sampling, init, etc.)
 └── training/                   # Notebooks for experimentation
-    ├── hinge_sngan_first_training.ipynb
-    ├── hinge_sngan_second_training.ipynb
-    └── hinge_sngan_full.ipynb
+│     ├── hinge_sngan_first_training.ipynb
+│    ├── hinge_sngan_second_training.ipynb
+│ 
+│   hinge_sngan_full.ipynb # All the functions in one jupyter
 ```
 
 ---
@@ -98,6 +99,7 @@ This project is licensed under the **MIT License** – see the [LICENSE](LICENSE
 - Extend training to larger datasets like **CelebA-HQ**.
 - Experiment with **larger architectures (BigGAN-lite)**.
 - Evaluate image quality with **FID/KID metrics**.
+
 
 
 
