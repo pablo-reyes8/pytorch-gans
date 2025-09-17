@@ -4,8 +4,8 @@ import torch.nn as nn
 class Discriminator(nn.Module):
     """
     Discriminador  para imágenes 3x64x64.
-    Conv(3x3, padding=1) mantiene tamaño; solo MaxPool(2) reduce.
-    Salida: probabilidad en (0,1) vía Sigmoid.
+    Conv(3x3, padding=1) mantiene tamaño; en DCGAN la reducción se hace con Conv(4x4, stride=2).
+    Salida: logits para usar BCEwithLogits.
     """
 
     def __init__(self, img_channels=3, base=64, max_ch=1024, p_drop=0.3):
@@ -13,44 +13,48 @@ class Discriminator(nn.Module):
         super().__init__()
         c1, c2, c3, c4 = base, base*2, base*4, max_ch  # 64, 128, 256, 1024 en numeros de filtros por conv
 
-        def block(in_c, out_c, bn=True):
-            layers = [nn.Conv2d(in_c, out_c, kernel_size=3, stride=1, padding=1, bias=False)] # Same padding
-            if bn:
+
+        # downsample DCGAN (Conv 4x4, stride 2, padding 1) en la primera capa del D.
+        def conv_down(in_c, out_c, bn=True, first=False):
+            """
+            Bloque DCGAN:
+            - Conv2d(4x4, stride=2, padding=1) menos tamaño
+            - BatchNorm2d (NO en la primera capa del D)
+            - LeakyReLU(0.2)
+            """
+            layers = []
+            # En la primera capa conviene bias=True porque no hay BN; con BN, bias=False
+            use_bias = first or (not bn)
+            layers.append(nn.Conv2d(in_c, out_c, kernel_size=4, stride=2, padding=1, bias=use_bias))
+            if bn and not first:
                 layers.append(nn.BatchNorm2d(out_c))
+
             layers.append(nn.LeakyReLU(0.2, inplace=True))
             return nn.Sequential(*layers)
 
         self.features = nn.Sequential(
-            # 64x64 - (64 , 3x3)  = (N, 64, 64, 64)
-            block(img_channels, c1, bn=False),
-            block(c1, c1, bn=True),
-            nn.Dropout2d(p_drop),
-            nn.MaxPool2d(2),  # 64 -> 32
+
+            # 64x64 - (64 , 3x3) = (N, 64, 64, 64)
+            conv_down(img_channels, c1, bn=False, first=True),  # 64 -> 32
 
             # 32x32 - (128 , 3x3) = (N, 128, 32, 32)
-            block(c1, c2, bn=True),
-            nn.Dropout2d(p_drop),
-            nn.MaxPool2d(2),  # 32 -> 16
+            conv_down(c1, c2, bn=True,  first=False),  # 32 -> 16
 
             # 16x16 - (256 , 3x3) = (N, 256, 16, 16)
-            block(c2, c3, bn=True),
-            nn.Dropout2d(p_drop),
-            nn.MaxPool2d(2),  # 16 -> 8
+            conv_down(c2, c3, bn=True,  first=False), # 16 -> 8
 
-            # 8x8 - (1024 , 3x3)  = ( N, 1024, 8, 8)
-            block(c3, c4, bn=True),
-            nn.Dropout2d(p_drop))
+            # 8x8 - (1024 , 3x3) = ( N, 1024, 8, 8)
+            conv_down(c3, c4, bn=True,  first=False),  # 8 -> 4
+        )
 
-
-        self.classifier = nn.Sequential(
-            nn.Flatten(), # vector (1024x8x8)
-            nn.LazyLinear(1, bias=True)) # Capa automarica que detecta el input 
+        # Cabeza conv: de (N, c4, 4, 4) -> (N, 1, 1, 1) logits (sin sigmoide).
+        self.classifier = nn.Conv2d(c4, 1, kernel_size=4, stride=1, padding=0, bias=True)
 
     def forward(self, x):
-        x = self.features(x)
-        x = self.classifier(x)
-        return x
-    
+        x = self.features(x)          # (N, c4, 4, 4)
+        x = self.classifier(x)        # (N, 1, 1, 1) logits
+        return x.view(x.size(0), 1)   # vector (N, 1) para BCEWithLogitsLoss
+
 
 class Generator(nn.Module):
     """
@@ -63,14 +67,14 @@ class Generator(nn.Module):
 
         self.latent_dim = latent_dim
 
-        self.net = nn.Sequential(
+        layers = [
             # Z = (N, latent_dim, 1, 1) a (512, 4x4) = (N, 512, 4, 4)
-            nn.ConvTranspose2d(latent_dim, ngf*8, 4, 1, 0, bias=False), # kernel=4 , pad = 0 , stride = 1
+            nn.ConvTranspose2d(latent_dim, ngf*8, 4, 1, 0, bias=False),  # kernel=4 , pad=0 , stride=1
             nn.BatchNorm2d(ngf*8),
             nn.ReLU(True),
 
             # 4 a 8 - (256, 4x4) = (N, 256, 8, 8)
-            nn.ConvTranspose2d(ngf*8, ngf*4, 4, 2, 1, bias=False), # kernel=4 , pad = 1 , stride = 2 (duplica tama;o imagen)
+            nn.ConvTranspose2d(ngf*8, ngf*4, 4, 2, 1, bias=False),  # kernel=4 , pad=1 , stride=2 (duplica tamaño imagen)
             nn.BatchNorm2d(ngf*4),
             nn.ReLU(True),
 
@@ -85,12 +89,21 @@ class Generator(nn.Module):
             nn.ReLU(True),
 
             # 32 a 64 - (3, 4x4)= (N, 3, 64, 64)
-            nn.ConvTranspose2d(ngf, img_channels, 3, 2, 1, bias=False),
-            nn.AdaptiveAvgPool2d(img_dim),
-            nn.Tanh())
+            # Ultima capa sin BN, ConvT(4,2,1) y Tanh
+            nn.ConvTranspose2d(ngf, img_channels, 4, 2, 1, bias=False),
+            nn.Tanh()]
+        
+        # Por si se usa otra configuracion que no sea 64x64 se hace AdaptiveAvgPool2d
+        if tuple(img_dim) != (64, 64):
+            layers.insert(-1, nn.AdaptiveAvgPool2d(img_dim))  # lo ingresamos antes de Tanh
+
+        # Construir la red
+        self.net = nn.Sequential(*layers)
+
 
     def forward(self, z):
         return self.net(z.view(z.size(0), z.size(1), 1, 1))
+
 
 
 def weights_init_normal(m):
