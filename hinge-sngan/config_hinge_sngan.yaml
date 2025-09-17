@@ -1,0 +1,73 @@
+# Configuration for a Hinge SNGAN (Spectral Norm) experiment
+experiment:
+  name: hinge_sngan_rgb_sn_ema_diffaug
+  seed: 42
+
+runtime:
+  device: auto # 'cuda' if available else 'cpu'
+
+data:
+  train_loader: python:train_loader # placeholder to your DataLoader
+  image_channels: 3
+
+model:
+  generator:
+    class: Generator
+    latent_dim: 100
+    ngf: 128
+    img_channels: 3
+    init_fn: weights_init_dcgan_sn
+    use_spectral_norm: true
+  discriminator:
+    class: Discriminator
+    img_channels: 3
+    base: 128
+    max_ch: 1024
+    init_fn: weights_init_dcgan_sn
+    use_spectral_norm: true
+
+loss:
+  hinge: true
+  criterion: null # handled inside training when hinge=true
+
+optimizers:
+  generator:
+    class: Adam
+    lr: 0.0001
+    betas: [0.5, 0.999]
+  discriminator:
+    class: Adam
+    lr: 0.0002
+    betas: [0.5, 0.999]
+
+regularization:
+  r1:
+    enabled: true
+    every: 16
+    gamma: 5.0
+
+augmentation:
+  diffaug:
+    enabled: true
+
+ema:
+  enabled: true
+  decay: 0.999
+
+training:
+  function: train_gan
+  epochs: 200
+  latent_dim: 100
+  disc_steps: 2
+  g_warmup_epochs: 5
+  g_warmup_train_gen: 1
+  sample_every: 1
+  # resume_from: checkpoint_80epochs.pth
+
+checkpointing:
+  save_every: 10
+  out_dir: outputs/hinge_sngan_sn
+
+logging:
+  log_every: 100
+  sample_grid: true
