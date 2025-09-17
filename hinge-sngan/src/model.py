@@ -5,9 +5,9 @@ import torch.nn as nn
 
 class Discriminator(nn.Module):
     """
-    Discriminador para imágenes 3x64x64.
-    Ahora usamos Conv(stride=2) para reducir tamaño (mejor que MaxPool en GANs).
-    Salida: logits (usa BCEWithLogitsLoss), NO aplicar Sigmoid aquí.
+    Discriminador para imágenes 3x64x64. 
+    Se usa Spectral Norm normalization para que el entrenamiento sea mas eficiente (literatura). 
+    A parte de eso es un discriminiadador normal convolucional. 
     """
     def __init__(self, img_channels=3, base=96, max_ch=768 , p_drop=0.1 , hinge = True):
         super().__init__()
@@ -16,9 +16,7 @@ class Discriminator(nn.Module):
         if hinge:
           def dblock(in_c, out_c, stride=2):
               # 64x64 -> 32x32 -> 16x16 -> 8x8 -> 4x4
-              return nn.Sequential(
-                  SN(nn.Conv2d(in_c, out_c, kernel_size=4, stride=stride, padding=1, bias=True)),
-
+              return nn.Sequential(SN(nn.Conv2d(in_c, out_c, kernel_size=4, stride=stride, padding=1, bias=True)),
                   nn.LeakyReLU(0.2, inplace=True))
         else:
           def dblock(in_c, out_c, stride=2):
@@ -52,11 +50,13 @@ class Discriminator(nn.Module):
 
 
 class Generator(nn.Module):
-
     """
     Generador tipo DCGAN para imágenes 3x64x64.
     Input: vector z (N, latent_dim)
     Output: imagen (N, 3, 64, 64)
+
+    Aca no se uso SN normalization porque en el paper original no se hizo. 
+    Encontre que en modelos recientes si se suele hacer... 
     """
 
     def __init__(self, latent_dim=100, ngf=128, img_channels=3 , img_dim = (64,64)):

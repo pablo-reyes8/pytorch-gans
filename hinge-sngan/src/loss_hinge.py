@@ -20,7 +20,9 @@ def loss_hinge_generator(d_fake):
 
 def r1_penalty(d_out_real, real):
     """
-    R1 = E[ ||∂D/∂x||^2 ] sobre reales.
+    R1 = E[ ||∂D/∂x||^2 ] sobre las imagens reales.
+    esto suele ser costoso porque toca calcular gradientes sobre las imagenes reales tambien. 
+    Una regla empirica es cada 16 pasos
     """
     grad = torch.autograd.grad(
         outputs=d_out_real.sum(), inputs=real,
