@@ -96,7 +96,8 @@ This project is licensed under the **MIT License** – see the [LICENSE](LICENSE
 - Experiment with **Wasserstein GAN (WGAN)** and gradient penalty.  
 - Extend to **color datasets** like CIFAR-10.  
 - Add logging and visualization with **TensorBoard**.  
-- Explore **conditional GANs (cGANs)** for class-conditioned digit generation.
+- Explore **conditional GANs (cGANs)** for class-conditioned digit generation...
+
 
 
 
