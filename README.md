@@ -145,5 +145,4 @@ This project is licensed under the **MIT License** – see the [LICENSE](LICENSE
 - Scale up to larger and higher-resolution datasets (e.g., **CelebA-HQ**, **LSUN Bedrooms**).  
 - Incorporate backbones of advanced architectures such as **BigGAN** or **StyleGAN2/3**.  
 - Explore **conditional GANs (cGANs, AC-GAN, Projection GANs)** for class-conditioned or multi-label generation.  
-- Extend augmentation pipeline with **DiffAugment variants** and modern techniques (e.g., ADA from StyleGAN2).  
 
