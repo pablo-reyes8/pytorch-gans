@@ -46,7 +46,7 @@ stylegan/
 ## ⚙️ Main Components
 
 - **Mapping Network**  
-  Transforms latent vectors \(z \sim \mathcal{N}(0, I)\) into a disentangled latent space \(w\).
+  Transforms latent vectors $z \sim \mathcal{N}(0, I)$ into a disentangled latent space $w$.
 
 - **Synthesis Network**  
   Starts from a learned constant and applies modulated convolutions to generate images.  
@@ -71,7 +71,7 @@ stylegan/
 
 
 <p align="center">
-  <img src="samples/epocnewfinal.png" alt="StyleGAN CelebA sample" width="280"/>
+  <img src="samples/epocnewfinal.png" alt="StyleGAN CelebA sample" width="300"/>
 </p>
 
 ---
@@ -95,6 +95,7 @@ This project is licensed under the **MIT License** – see the [LICENSE](LICENSE
 - Extend training to **CelebA-HQ** and **FFHQ** datasets.
 - Upgrade implementation to **StyleGAN2** with weight demodulation.
 - Evaluate quality with **FID** and **Precision-Recall** metrics.
+
 
 
 
