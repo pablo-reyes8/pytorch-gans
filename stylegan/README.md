@@ -5,7 +5,7 @@
 ![Open issues](https://img.shields.io/github/issues/pablo-reyes8/pytorch-gans) 
 ![Contributors](https://img.shields.io/github/contributors/pablo-reyes8/pytorch-gans) 
 ![Forks](https://img.shields.io/github/forks/pablo-reyes8/pytorch-gans?style=social) 
-![Stars](https://img.shields.io/github/stars/pablo-reyes8/pytorch-gans?style=social
+![Stars](https://img.shields.io/github/stars/pablo-reyes8/pytorch-gans?style=social)
 
 An implementation of the original **StyleGAN (Karras et al. 2019)**, trained on **CelebA (64×64)**.  
 This project reproduces the key ideas of the _style-based generator architecture_ and integrates features such as **style mixing**, **per-layer noise injection**, and **Exponential Moving Average (EMA)** for stable training.
@@ -97,5 +97,6 @@ This project is licensed under the **MIT License** – see the [LICENSE](LICENSE
 - Extend training to **CelebA-HQ** and **FFHQ** datasets.
 - Upgrade implementation to **StyleGAN2** with weight demodulation.
 - Evaluate quality with **FID** and **Precision-Recall** metrics.
+
 
 
