@@ -73,7 +73,7 @@ After ~70–100 epochs on **CelebA 64×64**, the generator produces realistic fa
 Style mixing improves variation and disentanglement of attributes.
 
 <p align="center">
-  <img src="samples/epoch_0100.png" alt="StyleGAN CelebA sample" width="280"/>
+  <img src="samples/epoc new final .png" alt="StyleGAN CelebA sample" width="280"/>
 </p>
 
 ---
@@ -97,3 +97,4 @@ This project is licensed under the **MIT License** – see the [LICENSE](LICENSE
 - Extend training to **CelebA-HQ** and **FFHQ** datasets.
 - Upgrade implementation to **StyleGAN2** with weight demodulation.
 - Evaluate quality with **FID** and **Precision-Recall** metrics.
+
