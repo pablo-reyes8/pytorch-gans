@@ -1,5 +1,7 @@
 # PyTorch GANs
 
+[![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 ![Repo size](https://img.shields.io/github/repo-size/pablo-reyes8/pytorch-gans)
 ![Last commit](https://img.shields.io/github/last-commit/pablo-reyes8/pytorch-gans)
 ![Open issues](https://img.shields.io/github/issues/pablo-reyes8/pytorch-gans)
