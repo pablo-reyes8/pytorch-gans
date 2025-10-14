@@ -100,6 +100,19 @@ A modern GAN variant combining **Spectral Normalization (SN)**, **Hinge Loss**, 
 </p>
 
 
+### 4. **StyleGAN** (`stylegan/`)
+A state-of-the-art GAN with a **mapping network** ($z\!\to\!w$), **style modulation (AdaIN)**, and **stochastic noise** for fine-grained control of generated features.
+
+- **Generator**: learnable constant input → style-modulated conv blocks; supports **truncation** and **style mixing**.  
+- **Discriminator**: progressive conv net with **minibatch-stddev** and **R1 regularization**.  
+- **Training**: uses **EMA** for stability, optional **DiffAugment**, and progressive resolutions (64→256/512).  
+
+<p align="center">
+  <img src="stylegan/samples/epocnewfinal.png" alt="StyleGAN sample" width="280"/>
+</p>
+
+
+
 ---
 
 # ⚙️ Installation & Dependencies
