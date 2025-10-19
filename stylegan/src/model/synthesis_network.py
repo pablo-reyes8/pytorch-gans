@@ -155,6 +155,41 @@ class AdaIN(nn.Module):
         return x_styled
 
 
+class Blur2d(nn.Module):
+    """
+    Filtro de desenfoque 2D separable (Gaussian-like) usado comúnmente en GANs
+    para estabilizar el entrenamiento al suavizar aliasing en imágenes.
+
+    Args:
+        kernel (tuple): Coeficientes del filtro 1D. Por defecto (1, 3, 3, 1).
+        pad (tuple): Padding asimétrico (left, right, top, bottom), típicamente (1, 2, 1, 2).
+
+    Atributos:
+        weight (Tensor): Kernel 2D normalizado, registrado como buffer (no entrenable).
+        pad (tuple): Especifica el padding reflejado aplicado antes de la convolución.
+
+    Forward:
+        Aplica padding reflejado y luego convolución por canal (groups=C)
+        para suavizar la entrada sin alterar el número de canales.
+
+    Output:
+        Tensor con el mismo tamaño espacial que la entrada, pero con bordes suavizados.
+    """
+    def __init__(self, kernel=(1,3,3,1), pad=(1,2,1,2)):
+        super().__init__()
+        k = torch.tensor(kernel, dtype=torch.float32)
+        k2d = (k[:, None] * k[None, :])          # kernel 2D separable
+        k2d /= k2d.sum()                         # normalización
+        self.register_buffer("weight", k2d[None, None, :, :])
+        self.pad = pad                           # padding asimétrico
+
+    def forward(self, x):
+        B, C, H, W = x.shape
+        w = self.weight.repeat(C, 1, 1, 1)
+        x = F.pad(x, self.pad, mode="reflect")   # alternativa: "replicate"
+        return F.conv2d(x, w, padding=0, groups=C)
+
+
 class StyledConv(nn.Module):
     """
     Bloque convolucional modulado al estilo StyleGAN.
@@ -182,6 +217,7 @@ class StyledConv(nn.Module):
     def __init__(self, in_ch, out_ch, kernel, w_dim, upsample=False):
         super().__init__()
         self.upsample = upsample
+        self.blur = Blur2d((1,3,3,1)) if upsample else None
         self.conv = EqualConv2d(in_ch, out_ch, kernel, padding=kernel//2) # Convolución con Equalized LR (padding para mantener tamaño si no hay upsample)
         self.noise = NoiseInjection(out_ch)# Ruido estocástico (parámetro por canal que escala el ruido)
         self.affine = AffineStyle(w_dim, out_ch, lr_mul=1.0)  # Proyección afín del estilo w → [scale, bias] por canal yb yc
@@ -191,7 +227,8 @@ class StyledConv(nn.Module):
     def forward(self, x, w, noise=None):
         if self.upsample:
             x = F.interpolate(x, scale_factor=2, mode='nearest')
-
+            x = self.blur(x) 
+            
         x = self.conv(x)
         x = self.noise(x, noise=noise)
         x = self.act(x)
@@ -215,7 +252,7 @@ class ToRGB(nn.Module):
     """
     def __init__(self, in_ch):
         super().__init__()
-        self.conv = EqualConv2d(in_ch, 3, kernel=1, padding=0)
+        self.conv = EqualConv2d(in_ch, 3, kernel=1, padding=0, lr_mul=0.1)
 
     def forward(self, x):
         return self.conv(x)
@@ -312,5 +349,6 @@ class SynthesisNetwork64(nn.Module):
         # 64x64
         x = self.conv64_1(x, next(w_iter))
         x = self.conv64_2(x, next(w_iter))
+
 
         return self.to_rgb(x)
