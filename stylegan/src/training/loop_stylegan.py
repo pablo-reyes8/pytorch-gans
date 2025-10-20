@@ -105,7 +105,7 @@ def train_gan(
     gen_ema=None, # pasa aquí tu EMA previa para no recrearla
     style_decay = False, 
     lr_Disc_decay =False,
-    control_noise = False
+    control_noise = False , noise_clip_value = 0.5
 ):
     """
     Entrenamiento de (Style)GAN con Hinge o BCE/Softplus, R1, EMA y DiffAug:
@@ -357,12 +357,12 @@ def train_gan(
           with torch.no_grad():
             for m in generador.modules():
               if isinstance(m, NoiseInjection) and hasattr(m, "weight"):
-                  m.weight.clamp_(-0.5, 0.5)
+                  m.weight.clamp_(-noise_clip_value, noise_clip_value) 
 
             if (use_ema and gen_ema is not None):
               for mn in gen_ema.modules():
-                if isinstance(mn, NoiseInjection) and hasattr(m, "weight"):
-                   mn.weight.clamp_(-0.5, 0.5)
+                if isinstance(mn, NoiseInjection) and hasattr(mn, "weight"):
+                   mn.weight.clamp_(-noise_clip_value, noise_clip_value)
 
         if (absolute_epoch % monitor_img) == 0:
             with torch.no_grad():
@@ -379,7 +379,7 @@ def train_gan(
                 pg['lr'] *= scale
             print(f"[Epoch {absolute_epoch:03d}] ↓ lr_D x{scale:.2f} -> {optimizerD.param_groups[0]['lr']:.2e}")
 
-      
+
     return history, gen_ema, fixed_z, global_step, (start_epoch + epochs - 1)
 
 
