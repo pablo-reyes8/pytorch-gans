@@ -71,7 +71,7 @@ stylegan/
 
 
 <p align="center">
-  <img src="samples/epocnewfinal.png" alt="StyleGAN CelebA sample" width="300"/>
+  <img src="samplesv3/epoch_0056.png" alt="StyleGAN sample" width="280"/>
 </p>
 
 ---
@@ -95,6 +95,7 @@ This project is licensed under the **MIT License** – see the [LICENSE](LICENSE
 - Extend training to **CelebA-HQ** and **FFHQ** datasets.
 - Upgrade implementation to **StyleGAN2** with weight demodulation.
 - Evaluate quality with **FID** and **Precision-Recall** metrics.
+
 
 
 
