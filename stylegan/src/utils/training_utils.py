@@ -15,39 +15,93 @@ def update_ema(ema_model, model, decay=0.999):
         b_ema.copy_(b)
 
 
-def diff_augment(x):
+def diff_augment1(x, p=0.5, max_shift=1):
     """
-    DiffAugment ligero para robustecer al discriminador en datasets pequeños.
-
-    Idea:
-    - Añadir transformaciones estocásticas simples (flip, translación pequeña, jitter de color)
-      para que D no se sobreajuste a píxeles exactos y aprenda invariancias útiles.
-
-    Operaciones (aplicadas con probabilidad 0.5):
-    - Flip horizontal
-    - Translación discreta pequeña (±1 píxel) usando torch.roll (conserva tamaño sin recortes)
-    - Color jitter multiplicativo → reescala intensidades levemente y clamp a [-1, 1]
-      (asumiendo entradas normalizadas a ese rango)
+    DiffAugment ligero:
+      - Flip horizontal
+      - Translación discreta sin wrap (relleno con 0)
+      - Jitter multiplicativo de color (broadcast por batch)
+    Supone imágenes en [-1, 1].
     """
-    # Flip
-    if torch.rand(1, device=x.device).item() < 0.5:
+    B, C, H, W = x.shape
+    device = x.device
+
+    #  Flip horizontal (por-batch)
+    if torch.rand(1, device=device).item() < p:
         x = torch.flip(x, dims=[3])
 
-    # Translation
-    if torch.rand(1, device=x.device).item() < 0.5:
-        tx = int(torch.randint(-1, 2, (1,), device=x.device))
-        ty = int(torch.randint(-1, 2, (1,), device=x.device))
-        x = torch.roll(x, shifts=(ty, tx), dims=(2, 3))
+    #  Translación sin wrap
+    if torch.rand(1, device=device).item() < p and max_shift > 0:
+        tx = int(torch.randint(-max_shift, max_shift + 1, (1,), device=device))
+        ty = int(torch.randint(-max_shift, max_shift + 1, (1,), device=device))
 
-        if ty != 0:
-          x[:, :, ty:, :] = x[:, :, ty:, :].clone()
+        if tx != 0 or ty != 0:
+            pad_left   = max(tx, 0)
+            pad_right  = max(-tx, 0)
+            pad_top    = max(ty, 0)
+            pad_bottom = max(-ty, 0)
+            x = F.pad(x, (pad_left, pad_right, pad_top, pad_bottom), mode="constant", value=0.0)
+            x = x[:, :, pad_top:pad_top+H, pad_left:pad_left+W]
 
-    # Color jitter
-    if torch.rand(1, device=x.device).item() < 0.5:
-        gain = 1.0 + 0.2 * (2*torch.rand(1, device=x.device).item() - 1)
-        x = x * gain
-        x = x.clamp(-1, 1)
+    #  Jitter multiplicativo de color
+    if torch.rand(1, device=device).item() < p:
+        gain = 1.0 + 0.2 * torch.empty(B, 1, 1, 1, device=device).uniform_(-1, 1)
+        x = (x * gain).clamp(-1, 1)
+
     return x
+
+
+def diff_augment(x, p=0.5, max_shift=1):
+    B, C, H, W = x.shape
+    dev = x.device
+
+    # Flip
+    if torch.rand(1, device=dev).item() < p:
+        x = torch.flip(x, dims=[3])
+
+    # Translation (sin wrap, padding replicate)
+    if torch.rand(1, device=dev).item() < p and max_shift > 0:
+        tx = int(torch.randint(-max_shift, max_shift+1, (1,), device=dev))
+        ty = int(torch.randint(-max_shift, max_shift+1, (1,), device=dev))
+        if tx or ty:
+            pad_left, pad_right  = max(tx,0), max(-tx,0)
+            pad_top,  pad_bottom = max(ty,0), max(-ty,0)
+            x = F.pad(x, (pad_left, pad_right, pad_top, pad_bottom), mode="replicate")
+            x = x[:, :, pad_top:pad_top+H, pad_left:pad_left+W]
+    return x
+
+
+def diff_augment2(x, p=0.6, max_shift=1, color_gain=0.05, assume='logits'):
+    """
+    assume: 'logits' -> no clamp; 'minus1_1' -> clamp a [-1,1] (si entrenaras en ese rango).
+    """
+    B, C, H, W = x.shape
+    dev = x.device
+
+    # Flip
+    if torch.rand(1, device=dev).item() < p:
+        x = torch.flip(x, dims=[3])
+
+    # Translation (sin wrap)
+    if torch.rand(1, device=dev).item() < p and max_shift > 0:
+        tx = int(torch.randint(-max_shift, max_shift+1, (1,), device=dev))
+        ty = int(torch.randint(-max_shift, max_shift+1, (1,), device=dev))
+        if tx or ty:
+            pad_left, pad_right  = max(tx,0), max(-tx,0)
+            pad_top,  pad_bottom = max(ty,0), max(-ty,0)
+            x = F.pad(x, (pad_left, pad_right, pad_top, pad_bottom), mode="replicate")
+            x = x[:, :, pad_top:pad_top+H, pad_left:pad_left+W]
+
+    # Color 
+    if color_gain and torch.rand(1, device=dev).item() < p:
+        gain = 1.0 + color_gain * torch.empty(B, 1, 1, 1, device=dev).uniform_(-1, 1)
+        x = x * gain
+        if assume == 'minus1_1':
+            x = x.clamp(-1, 1)
+
+    return x
+
+
 
 def make_unique_dir(base="samples"):
     if not os.path.exists(base):
@@ -59,4 +113,5 @@ def make_unique_dir(base="samples"):
         i += 1
     new_dir = f"{base}_{i}"
     os.makedirs(new_dir)
+
     return new_dir
