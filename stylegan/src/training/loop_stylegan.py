@@ -9,6 +9,23 @@ import matplotlib.pyplot as plt
 import time
 
 ###### Utils for training ########## 
+
+def to_logits(x):
+  """
+  Convierte salidas del D a logits (B,1):
+  - Si viene como mapa (B,1,H,W) o (B,C,H,W): GAP sobre H,W.
+  - Si viene como (B,) o (B,1): lo re-forma a (B,1).
+  """
+  if x.dim() == 4:  # (B,C,H,W)
+        x = x.mean(dim=(2, 3), keepdim=False)  
+        if x.size(1) != 1:
+            x = x.mean(dim=1, keepdim=True)    
+        else:
+            x = x.view(-1, 1)
+        return x
+  return x.view(-1, 1)
+
+
 def tensor_mean_cpu(t):
     """
     Devuelve la media escalar del tensor `t` como float en CPU.
@@ -364,4 +381,5 @@ def train_gan(
 
       
     return history, gen_ema, fixed_z, global_step, (start_epoch + epochs - 1)
+
 
