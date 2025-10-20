@@ -1,0 +1,122 @@
+StyleGANGenerator64(
+  (mapping): MappingNetwork(
+    (pn): PixelNorm()
+    (net): Sequential(
+      (0): EqualLinear()
+      (1): LeakyReLU(negative_slope=0.2, inplace=True)
+      (2): EqualLinear()
+      (3): LeakyReLU(negative_slope=0.2, inplace=True)
+      (4): EqualLinear()
+      (5): LeakyReLU(negative_slope=0.2, inplace=True)
+      (6): EqualLinear()
+      (7): LeakyReLU(negative_slope=0.2, inplace=True)
+      (8): EqualLinear()
+      (9): LeakyReLU(negative_slope=0.2, inplace=True)
+      (10): EqualLinear()
+      (11): LeakyReLU(negative_slope=0.2, inplace=True)
+      (12): EqualLinear()
+      (13): LeakyReLU(negative_slope=0.2, inplace=True)
+      (14): EqualLinear()
+    )
+  )
+  (synthesis): SynthesisNetwork64(
+    (const): ConstantInput()
+    (conv4_1): StyledConv(
+      (conv): EqualConv2d()
+      (noise): NoiseInjection()
+      (affine): AffineStyle(
+        (fc): EqualLinear()
+      )
+      (adain): AdaIN()
+      (act): LeakyReLU(negative_slope=0.2, inplace=True)
+    )
+    (conv4_2): StyledConv(
+      (blur): Blur2d()
+      (conv): EqualConv2d()
+      (noise): NoiseInjection()
+      (affine): AffineStyle(
+        (fc): EqualLinear()
+      )
+      (adain): AdaIN()
+      (act): LeakyReLU(negative_slope=0.2, inplace=True)
+    )
+    (conv8_1): StyledConv(
+      (conv): EqualConv2d()
+      (noise): NoiseInjection()
+      (affine): AffineStyle(
+        (fc): EqualLinear()
+      )
+      (adain): AdaIN()
+      (act): LeakyReLU(negative_slope=0.2, inplace=True)
+    )
+    (conv8_2): StyledConv(
+      (blur): Blur2d()
+      (conv): EqualConv2d()
+      (noise): NoiseInjection()
+      (affine): AffineStyle(
+        (fc): EqualLinear()
+      )
+      (adain): AdaIN()
+      (act): LeakyReLU(negative_slope=0.2, inplace=True)
+    )
+    (conv16_1): StyledConv(
+      (conv): EqualConv2d()
+      (noise): NoiseInjection()
+      (affine): AffineStyle(
+        (fc): EqualLinear()
+      )
+      (adain): AdaIN()
+      (act): LeakyReLU(negative_slope=0.2, inplace=True)
+    )
+    (conv16_2): StyledConv(
+      (blur): Blur2d()
+      (conv): EqualConv2d()
+      (noise): NoiseInjection()
+      (affine): AffineStyle(
+        (fc): EqualLinear()
+      )
+      (adain): AdaIN()
+      (act): LeakyReLU(negative_slope=0.2, inplace=True)
+    )
+    (conv32_1): StyledConv(
+      (conv): EqualConv2d()
+      (noise): NoiseInjection()
+      (affine): AffineStyle(
+        (fc): EqualLinear()
+      )
+      (adain): AdaIN()
+      (act): LeakyReLU(negative_slope=0.2, inplace=True)
+    )
+    (conv32_2): StyledConv(
+      (blur): Blur2d()
+      (conv): EqualConv2d()
+      (noise): NoiseInjection()
+      (affine): AffineStyle(
+        (fc): EqualLinear()
+      )
+      (adain): AdaIN()
+      (act): LeakyReLU(negative_slope=0.2, inplace=True)
+    )
+    (conv64_1): StyledConv(
+      (conv): EqualConv2d()
+      (noise): NoiseInjection()
+      (affine): AffineStyle(
+        (fc): EqualLinear()
+      )
+      (adain): AdaIN()
+      (act): LeakyReLU(negative_slope=0.2, inplace=True)
+    )
+    (conv64_2): StyledConv(
+      (conv): EqualConv2d()
+      (noise): NoiseInjection()
+      (affine): AffineStyle(
+        (fc): EqualLinear()
+      )
+      (adain): AdaIN()
+      (act): LeakyReLU(negative_slope=0.2, inplace=True)
+    )
+    (to_rgb): ToRGB(
+      (conv): EqualConv2d()
+    )
+  )
+)
