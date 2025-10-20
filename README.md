@@ -108,7 +108,7 @@ A state-of-the-art GAN with a **mapping network** ($z\!\to\!w$), **style modulat
 - **Training**: uses **EMA** for stability, optional **DiffAugment**, and trained with Hinge loss.  
 
 <p align="center">
-  <img src="stylegan/samples/epocnewfinal.png" alt="StyleGAN sample" width="280"/>
+  <img src="stylegan/samplesv3/epoch_0056.png" alt="StyleGAN sample" width="280"/>
 </p>
 
 
