@@ -88,7 +88,7 @@ stylegan/
 
 ## 📜 License
 
-This project is licensed under the **MIT License** – see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **MIT License**.
 
 ---
 
@@ -97,6 +97,7 @@ This project is licensed under the **MIT License** – see the [LICENSE](LICENSE
 - Extend training to **CelebA-HQ** and **FFHQ** datasets.
 - Upgrade implementation to **StyleGAN2** with weight demodulation.
 - Evaluate quality with **FID** and **Precision-Recall** metrics.
+
 
 
 
