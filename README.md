@@ -9,7 +9,7 @@
 ![Forks](https://img.shields.io/github/forks/pablo-reyes8/pytorch-gans?style=social)
 ![Stars](https://img.shields.io/github/stars/pablo-reyes8/pytorch-gans?style=social)
 
-> **Status:** Research playground for comparing GAN objectives, architectures & stabilisation tricks.
+> **Status:** Research playground for comparing GAN objectives, architectures & stabilisation tricks from scrath.
 
 A collection of **Generative Adversarial Networks (GANs)** implemented in **PyTorch**.  
 This repository brings together different GAN architectures trained on benchmark datasets, with a clear goal:
