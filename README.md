@@ -5,7 +5,6 @@
 ![Repo size](https://img.shields.io/github/repo-size/pablo-reyes8/pytorch-gans)
 ![Last commit](https://img.shields.io/github/last-commit/pablo-reyes8/pytorch-gans)
 ![Open issues](https://img.shields.io/github/issues/pablo-reyes8/pytorch-gans)
-![Contributors](https://img.shields.io/github/contributors/pablo-reyes8/pytorch-gans)
 ![Stars](https://img.shields.io/github/stars/pablo-reyes8/pytorch-gans?style=social)
 
 > **Status:** Research playground for comparing GAN objectives, architectures & stabilisation tricks from scrath.
